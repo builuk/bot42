@@ -18,26 +18,24 @@ def check_user_db_role(user_id):
     db = Database()
     role_data = db.get_user_roles(user_id)
     role = extract_unique_word(role_data)
+
     if role:
+        print(role)
         return role
     else:
+        print(role)
         # За замовчуванням додаємо роль "guest"
         db.add_user_role(user_id, "guest")
         return "guest"
 
 
-def extract_unique_word(data):
-    # Розгортаємо вкладені кортежі в список рядків
-    words = [item[0] for item in data if item]  # Перевіряємо, що кортеж не порожній
-    # Повертаємо унікальне слово, якщо всі слова однакові
-    return words[0] if len(set(words)) == 1 else None
+def extract_unique_word(role_data):
+    if isinstance(role_data, list) and len(role_data) == 1:
+        return role_data[0]
+    return None
 
 
 def main_loop(duration_minutes=5):
-    start_time = datetime.now()
-    end_time = start_time + timedelta(minutes=duration_minutes)
-    offset = 0
-    db = Database()
     start_time = datetime.now()
     end_time = start_time + timedelta(minutes=duration_minutes)
     offset = 0
