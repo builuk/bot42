@@ -1,5 +1,4 @@
 import pytest
-
 from handlers.admin_handler import AdminHandler
 from handlers.seller_handler import SellerHandler
 from handlers.buyer_handler import BuyerHandler
