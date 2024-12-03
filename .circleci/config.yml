@@ -42,7 +42,7 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
             python main/bot.py
-          no_output_timeout: 15m
+          no_output_timeout: 2m
 
 workflows:
   version: 2
