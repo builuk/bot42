@@ -1,5 +1,5 @@
 import pytest
-from factory.handler_factory import CommandHandlerFactory
+from helper.handler_helper import CommandHandlerFactory
 from handlers.admin_handler import AdminHandler
 from handlers.seller_handler import SellerHandler
 from handlers.buyer_handler import BuyerHandler
