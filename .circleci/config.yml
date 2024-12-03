@@ -10,9 +10,6 @@ jobs:
     executor: python-executor
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
       - run:
           name: Set PYTHONPATH
           command: echo 'export PYTHONPATH=$PYTHONPATH:/home/circleci/project' >> $BASH_ENV
@@ -24,27 +21,20 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
             pytest --maxfail=5 --disable-warnings
-      - save_cache:
-          paths:
-            - ~/.cache/pip
-            - venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
 
   create_env_and_run_bot:
     executor: python-executor
     steps:
       - checkout
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "requirements.txt" }}
       - run:
           name: Set PYTHONPATH
           command: echo 'export PYTHONPATH=$PYTHONPATH:/home/circleci/project' >> $BASH_ENV
       - run:
           name: Create .env file
           command: |
-            echo "TOKEN=${TOKEN}" >> .env
+            echo "TOKEN=${TOKEN}" > .env
             echo "ADMIN_ID=${ADMIN_ID}" >> .env
+          when: always
       - run:
           name: Setup Environment and Run Bot
           command: |
@@ -54,11 +44,6 @@ jobs:
             pip install -r requirements.txt
             python main/bot.py
           no_output_timeout: 15m
-      - save_cache:
-          paths:
-            - ~/.cache/pip
-            - venv
-          key: v1-dependencies-{{ checksum "requirements.txt" }}
 
 workflows:
   version: 2
