@@ -1,0 +1,30 @@
+version: 2.1
+
+executors:
+  python-executor:
+    docker:
+      - image: cimg/python:3.12
+
+jobs:
+  test: # Назва цього job має збігатися з workflow
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Install Dependencies
+          command: |
+            python -m venv venv
+            . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
+      - run:
+          name: Run Tests
+          command: |
+            . venv/bin/activate
+            pytest --maxfail=5 --disable-warnings
+
+workflows:
+  version: 2
+  test_workflow: # Назва workflow
+    jobs:
+      - test # Назва job повинна збігатися з визначенням у jobs
