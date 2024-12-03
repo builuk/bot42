@@ -12,7 +12,6 @@ def main_loop(duration_minutes=5):
     end_time = start_time + timedelta(minutes=duration_minutes)
     offset = 0
     print(f"Bot started. Running for {duration_minutes} minutes...")
-
     while datetime.now() < end_time:
         response = requests.get(API_URL + f"getUpdates?offset={offset}")
         updates = response.json().get('result', [])

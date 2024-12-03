@@ -1,4 +1,3 @@
-import requests
 from datetime import datetime, timedelta
 from handlers.base_handler import CommandHandler
 from services.message_service import send_message
@@ -6,6 +5,10 @@ from services.user_service import check_user_role
 from services.database_service import Database
 from config.env_config import *
 from helper.handler_helper import CommandHandlerFactory
+import requests
+import json
+from datetime import datetime, timedelta
+
 
 
 # Оновлення check_user_role для використання бази даних
@@ -31,6 +34,9 @@ def extract_unique_word(data):
 
 
 def main_loop(duration_minutes=5):
+    start_time = datetime.now()
+    end_time = start_time + timedelta(minutes=duration_minutes)
+    offset = 0
     db = Database()
     start_time = datetime.now()
     end_time = start_time + timedelta(minutes=duration_minutes)
@@ -48,7 +54,9 @@ def main_loop(duration_minutes=5):
                 role = check_user_db_role(user_id)
                 handler = CommandHandlerFactory().get_handler(role)
                 handler.handle(message)
+
         # Виводимо залишок часу кожну хвилину
+
         print(f"Time remaining: {(end_time - datetime.now()).seconds // 60} minutes")
 
     print("Bot finished running.")
