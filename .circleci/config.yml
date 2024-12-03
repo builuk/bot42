@@ -6,7 +6,7 @@ executors:
       - image: cimg/python:3.12
 
 jobs:
-  test: # Назва цього job має збігатися з workflow
+  run_unit_tests:
     executor: python-executor
     steps:
       - checkout
@@ -18,13 +18,32 @@ jobs:
             pip install --upgrade pip
             pip install -r requirements.txt
       - run:
-          name: Run Tests
+          name: Run Unit Tests
           command: |
             . venv/bin/activate
             pytest --maxfail=5 --disable-warnings
 
+  create_env_and_run_bot:
+    executor: python-executor
+    steps:
+      - checkout
+      - run:
+          name: Create .env file
+          command: |
+            echo "TOKEN=${TOKEN}" >> .env
+            echo "ADMIN_ID=${ADMIN_ID}" >> .env
+      - run:
+          name: Run Bot
+          command: |
+            . venv/bin/activate
+            python main/bot.py
+          no_output_timeout: 15m
+
 workflows:
   version: 2
-  test_workflow: # Назва workflow
+  build_and_test:
     jobs:
-      - test # Назва job повинна збігатися з визначенням у jobs
+      - run_unit_tests
+      - create_env_and_run_bot:
+          requires:
+            - run_unit_tests
