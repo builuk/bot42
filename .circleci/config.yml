@@ -14,16 +14,12 @@ jobs:
           name: Set PYTHONPATH
           command: echo 'export PYTHONPATH=$PYTHONPATH:/home/circleci/project' >> $BASH_ENV
       - run:
-          name: Install Dependencies
+          name: Install Dependencies and Run Unit Tests
           command: |
             python -m venv venv
             . venv/bin/activate
             pip install --upgrade pip
             pip install -r requirements.txt
-      - run:
-          name: Run Unit Tests
-          command: |
-            . venv/bin/activate
             pytest --maxfail=5 --disable-warnings
 
   create_env_and_run_bot:
@@ -36,9 +32,12 @@ jobs:
             echo "TOKEN=${TOKEN}" >> .env
             echo "ADMIN_ID=${ADMIN_ID}" >> .env
       - run:
-          name: Run Bot
+          name: Setup Environment and Run Bot
           command: |
+            python -m venv venv
             . venv/bin/activate
+            pip install --upgrade pip
+            pip install -r requirements.txt
             python main/bot.py
           no_output_timeout: 15m
 
