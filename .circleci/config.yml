@@ -27,6 +27,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Set PYTHONPATH
+          command: echo 'export PYTHONPATH=$PYTHONPATH:/home/circleci/project' >> $BASH_ENV
+      - run:
           name: Create .env file
           command: |
             echo "TOKEN=${TOKEN}" >> .env
