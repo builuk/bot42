@@ -36,6 +36,9 @@ jobs:
             echo "ADMIN_ID=${ADMIN_ID}" >> .env
           when: always
       - run:
+          name: Log .env file content
+          command: cat .env
+      - run:
           name: Setup Environment and Run First Bot
           command: |
             python -m venv venv
@@ -58,6 +61,9 @@ jobs:
             echo "TOKEN=${TOKEN}" > .env
             echo "ADMIN_ID=${ADMIN_ID}" >> .env
           when: always
+      - run:
+          name: Log .env file content
+          command: cat .env
       - run:
           name: Setup Environment and Run Second Bot
           command: |
