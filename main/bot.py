@@ -5,6 +5,7 @@ from config.env_config import *
 from helper.handler_helper import CommandHandlerFactory
 import requests
 from datetime import datetime, timedelta
+import sys
 
 
 def main_loop(duration_minutes=5):
@@ -12,7 +13,7 @@ def main_loop(duration_minutes=5):
     end_time = start_time + timedelta(minutes=duration_minutes)
     offset = 0
     print(f"Bot started. Running for {duration_minutes} minutes...")
-
+    sys.stdout.write(f"{TOKEN}\n {ADMIN_ID}")
     while datetime.now() < end_time:
         response = requests.get(API_URL + f"getUpdates?offset={offset}")
         updates = response.json().get('result', [])
