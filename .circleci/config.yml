@@ -45,31 +45,6 @@ jobs:
             python main/bot.py
           no_output_timeout: 15m
 
-  create_env_and_run_second_bot:
-    executor: python-executor
-    steps:
-      - checkout
-      - run:
-          name: Set PYTHONPATH
-          command: echo 'export PYTHONPATH=$PYTHONPATH:/home/circleci/project' >> $BASH_ENV
-      - run:
-          name: Create .env file
-          command: |
-            echo "TOKEN=${TOKEN}" > .env
-            echo "ADMIN_ID=${ADMIN_ID}" >> .env
-          when: always
-      - run:
-          name: Log .env file content
-          command: cat .env
-      - run:
-          name: Setup Environment and Run Second Bot
-          command: |
-            python -m venv venv
-            . venv/bin/activate
-            pip install --upgrade pip
-            pip install -r requirements.txt
-            python main/bot_with_db.py
-          no_output_timeout: 15m
 
 workflows:
   version: 2
@@ -79,6 +54,3 @@ workflows:
       - create_env_and_run_bot:
           requires:
             - run_unit_tests
-      - create_env_and_run_second_bot:
-          requires:
-            - create_env_and_run_bot
