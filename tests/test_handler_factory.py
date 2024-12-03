@@ -26,3 +26,5 @@ def test_handler_factory_creation_buyer():
 
 def test_handler_factory_invalid_type():
     factory = CommandHandlerFactory()
+    guest_handler = factory.get_handler("invalid_type")
+    assert isinstance(guest_handler, GuestHandler)
