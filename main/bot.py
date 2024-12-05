@@ -36,3 +36,4 @@ def main_loop(duration_minutes=6):
 if __name__ == "__main__":
     main_loop()
     print("Bot finished running.")
+    print()
