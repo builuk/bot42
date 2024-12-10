@@ -133,7 +133,7 @@ workflows:
           type: approval
           requires:
             - create_env_and_run_bot
-            - create_env_and_run_bot_with_db
+#            - create_env_and_run_bot_with_db
       - deploy:
           requires:
             - hold_for_approval
