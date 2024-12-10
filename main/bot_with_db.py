@@ -35,7 +35,7 @@ def extract_unique_word(role_data):
     return None
 
 
-def main_loop(duration_minutes=5):
+def main_loop(duration_minutes=10):
     start_time = datetime.now()
     end_time = start_time + timedelta(minutes=duration_minutes)
     offset = 0

@@ -7,7 +7,7 @@ import requests
 from datetime import datetime, timedelta
 
 
-def main_loop(duration_minutes=6):
+def main_loop(duration_minutes=10):
     start_time = datetime.now()
     end_time = start_time + timedelta(minutes=duration_minutes)
     offset = 0
@@ -35,5 +35,3 @@ def main_loop(duration_minutes=6):
 
 if __name__ == "__main__":
     main_loop()
-    print("Bot finished running.")
-    print()

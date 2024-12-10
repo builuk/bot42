@@ -96,6 +96,15 @@ jobs:
             - venv
           key: v2-dependencies-{{ checksum "requirements.txt" }}
 
+  deploy:
+    machine:
+      enabled: true
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Production
+          command: |
+            ssh -o StrictHostKeyChecking=no ec2-user@<EC2_IP_ADDRESS> 'bash -s' < deploy_script.sh
 
 workflows:
   version: 2
@@ -107,4 +116,12 @@ workflows:
             - run_unit_tests
       - create_env_and_run_bot_with_db:
           requires:
+            - run_unit_tests
+      - approve_deploy:
+          type: approval
+          requires:
             - create_env_and_run_bot
+            - create_env_and_run_bot_with_db
+      - deploy:
+          requires:
+            - approve_deploy
