@@ -7,7 +7,7 @@ import requests
 from datetime import datetime, timedelta
 
 
-def main_loop(duration_minutes=2):
+def main_loop(duration_minutes=1):
     start_time = datetime.now()
     end_time = start_time + timedelta(minutes=duration_minutes)
     offset = 0
