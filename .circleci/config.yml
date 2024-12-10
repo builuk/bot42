@@ -136,4 +136,4 @@ workflows:
             - create_env_and_run_bot_with_db
       - deploy:
           requires:
-            - approve_deploy
+            - hold_for_approval
