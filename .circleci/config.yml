@@ -101,10 +101,14 @@ jobs:
       enabled: true
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "dd:fd:8d:9f:9f:d0:c8:d4:7b:5b:2e:58:d9:dc:22:b8:ff:63:66:76"
       - run:
           name: Deploy to Production
           command: |
-            ssh -o StrictHostKeyChecking=no ec2-user@<EC2_IP_ADDRESS> 'bash -s' < deploy_script.sh
+            ssh -o StrictHostKeyChecking=no ubuntu@172.31.93.105  'bash -s' < deploy_script.sh
+
 
 workflows:
   version: 2
@@ -125,7 +129,7 @@ workflows:
       - create_env_and_run_bot_with_db:
           requires:
             - approve_bot_db_test
-      - approve_deploy:
+      - hold_for_approval:
           type: approval
           requires:
             - create_env_and_run_bot
